@@ -2,12 +2,66 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
-import { Eye, DollarSign, Smartphone, Globe, Code, Users, Target, TrendingUp, CheckCircle, AlertCircle } from 'lucide-react'
+import { Eye, DollarSign, Smartphone, Globe, Code, Users, Target, TrendingUp, CheckCircle, AlertCircle, Menu, X } from 'lucide-react'
+import { PaymentModal } from '@/components/PaymentModal.jsx'
+import { BetaTestingModal } from '@/components/BetaTestingModal.jsx'
 import viewerValueLogo from './assets/viewervalue-logo.png'
 import './App.css'
 
 function App() {
   const [activeTab, setActiveTab] = useState('overview')
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false)
+  const [betaTestingModalOpen, setBetaTestingModalOpen] = useState(false)
+  const [selectedTier, setSelectedTier] = useState(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const investmentTiers = [
+    {
+      title: 'Strategic Partner',
+      amount: 5000,
+      tokens: 50000,
+      benefits: [
+        '50,000 VVT tokens',
+        'Founding member status',
+        'Platform governance rights',
+        'Direct founder access',
+        'Revenue sharing participation'
+      ]
+    },
+    {
+      title: 'Growth Investor',
+      amount: 1000,
+      tokens: 10000,
+      benefits: [
+        '10,000 VVT tokens',
+        'Early adopter status',
+        'Platform beta access',
+        'Community voting rights',
+        'Quarterly updates'
+      ]
+    },
+    {
+      title: 'Community Supporter',
+      amount: 100,
+      tokens: 1000,
+      benefits: [
+        '1,000 VVT tokens',
+        'Community member status',
+        'Platform early access',
+        'Community participation',
+        'Regular updates'
+      ]
+    }
+  ]
+
+  const handleInvestmentClick = (tier) => {
+    setSelectedTier(tier)
+    setPaymentModalOpen(true)
+  }
+
+  const handleBetaTestingClick = () => {
+    setBetaTestingModalOpen(true)
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
@@ -26,6 +80,8 @@ function App() {
                 <p className="text-sm text-gray-400">Technologies LLC</p>
               </div>
             </div>
+            
+            {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-6">
               <button 
                 onClick={() => setActiveTab('overview')}
@@ -46,7 +102,62 @@ function App() {
                 Investment
               </button>
             </nav>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 text-white hover:text-purple-400 transition-colors"
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
           </div>
+
+          {/* Mobile Navigation Menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden mt-4 pb-4 border-t border-white/10">
+              <nav className="flex flex-col space-y-2 pt-4">
+                <button 
+                  onClick={() => {
+                    setActiveTab('overview')
+                    setMobileMenuOpen(false)
+                  }}
+                  className={`text-left px-4 py-2 text-sm font-medium transition-colors rounded-lg ${
+                    activeTab === 'overview' 
+                      ? 'text-purple-400 bg-purple-400/10' 
+                      : 'text-gray-300 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  Overview
+                </button>
+                <button 
+                  onClick={() => {
+                    setActiveTab('technology')
+                    setMobileMenuOpen(false)
+                  }}
+                  className={`text-left px-4 py-2 text-sm font-medium transition-colors rounded-lg ${
+                    activeTab === 'technology' 
+                      ? 'text-purple-400 bg-purple-400/10' 
+                      : 'text-gray-300 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  Technology
+                </button>
+                <button 
+                  onClick={() => {
+                    setActiveTab('investment')
+                    setMobileMenuOpen(false)
+                  }}
+                  className={`text-left px-4 py-2 text-sm font-medium transition-colors rounded-lg ${
+                    activeTab === 'investment' 
+                      ? 'text-purple-400 bg-purple-400/10' 
+                      : 'text-gray-300 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  Investment
+                </button>
+              </nav>
+            </div>
+          )}
         </div>
       </header>
 
@@ -451,7 +562,7 @@ function App() {
                     </ul>
                     <Button 
                       className="w-full bg-yellow-500 hover:bg-yellow-600 text-black"
-                      onClick={() => window.location.href = 'mailto:founder@viewervalue.net?subject=Strategic Partner Investment - $5,000 (Bitcoin/Ethereum Accepted)&body=Hello,%0D%0A%0D%0AI am interested in becoming a Strategic Partner with a $5,000 investment in ViewerValue Technologies LLC.%0D%0A%0D%0APlease provide me with:%0D%0A- Bitcoin (BTC) wallet address for investment%0D%0A- Ethereum (ETH) wallet address for investment%0D%0A- Traditional payment instructions (if preferred)%0D%0A- Investment agreement documentation%0D%0A- Next steps for the investment process%0D%0A%0D%0APreferred payment method:%0D%0A☐ Bitcoin (BTC)%0D%0A☐ Ethereum (ETH)%0D%0A☐ Credit Card/PayPal%0D%0A☐ Wire Transfer%0D%0A%0D%0AThank you,%0D%0A[Your Name]%0D%0A[Your Contact Information]'}
+                      onClick={() => handleInvestmentClick(investmentTiers[0])}
                     >
                       Invest $5,000 (BTC/ETH Accepted)
                     </Button>
@@ -473,7 +584,7 @@ function App() {
                     </ul>
                     <Button 
                       className="w-full bg-blue-500 hover:bg-blue-600 text-white"
-                      onClick={() => window.location.href = 'mailto:founder@viewervalue.net?subject=Growth Investor Investment - $1,000 (Bitcoin/Ethereum Accepted)&body=Hello,%0D%0A%0D%0AI am interested in becoming a Growth Investor with a $1,000 investment in ViewerValue Technologies LLC.%0D%0A%0D%0APlease provide me with:%0D%0A- Bitcoin (BTC) wallet address for investment%0D%0A- Ethereum (ETH) wallet address for investment%0D%0A- Traditional payment instructions (if preferred)%0D%0A- Investment agreement documentation%0D%0A- Next steps for the investment process%0D%0A%0D%0APreferred payment method:%0D%0A☐ Bitcoin (BTC)%0D%0A☐ Ethereum (ETH)%0D%0A☐ Credit Card/PayPal%0D%0A☐ Wire Transfer%0D%0A%0D%0AThank you,%0D%0A[Your Name]%0D%0A[Your Contact Information]'}
+                      onClick={() => handleInvestmentClick(investmentTiers[1])}
                     >
                       Invest $1,000 (BTC/ETH Accepted)
                     </Button>
@@ -495,7 +606,7 @@ function App() {
                     </ul>
                     <Button 
                       className="w-full bg-green-500 hover:bg-green-600 text-white"
-                      onClick={() => window.location.href = 'mailto:founder@viewervalue.net?subject=Community Supporter Investment - $100 (Bitcoin/Ethereum Accepted)&body=Hello,%0D%0A%0D%0AI am interested in becoming a Community Supporter with a $100 investment in ViewerValue Technologies LLC.%0D%0A%0D%0APlease provide me with:%0D%0A- Bitcoin (BTC) wallet address for investment%0D%0A- Ethereum (ETH) wallet address for investment%0D%0A- Traditional payment instructions (if preferred)%0D%0A- Investment agreement documentation%0D%0A- Next steps for the investment process%0D%0A%0D%0APreferred payment method:%0D%0A☐ Bitcoin (BTC)%0D%0A☐ Ethereum (ETH)%0D%0A☐ Credit Card/PayPal%0D%0A☐ Wire Transfer%0D%0A%0D%0AThank you,%0D%0A[Your Name]%0D%0A[Your Contact Information]'}
+                      onClick={() => handleInvestmentClick(investmentTiers[2])}
                     >
                       Invest $100 (BTC/ETH Accepted)
                     </Button>
@@ -678,7 +789,7 @@ function App() {
                     </div>
                     <Button 
                       className="w-full bg-green-500 hover:bg-green-600 text-white"
-                      onClick={() => window.location.href = 'mailto:founder@viewervalue.net?subject=Beta Testing Application&body=Hello,%0D%0A%0D%0AI would like to join the ViewerValue beta testing program.%0D%0A%0D%0APlease provide me with:%0D%0A- Beta testing requirements and timeline%0D%0A- Browser extension beta download link%0D%0A- Mobile app beta access instructions%0D%0A- Feedback submission process%0D%0A%0D%0AMy details:%0D%0AName: [Your Name]%0D%0AEmail: [Your Email]%0D%0APrimary Social Platforms: [Facebook/TikTok/Instagram/YouTube/Fanbase]%0D%0ADevice Type: [Desktop/Mobile/Both]%0D%0A%0D%0AThank you!'}
+                      onClick={handleBetaTestingClick}
                     >
                       Apply for Beta Testing
                     </Button>
@@ -757,6 +868,17 @@ function App() {
           </div>
         </div>
       </footer>
+
+      {/* Modals */}
+      <PaymentModal 
+        isOpen={paymentModalOpen}
+        onClose={() => setPaymentModalOpen(false)}
+        tier={selectedTier}
+      />
+      <BetaTestingModal 
+        isOpen={betaTestingModalOpen}
+        onClose={() => setBetaTestingModalOpen(false)}
+      />
     </div>
   )
 }
