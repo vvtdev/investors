@@ -90,16 +90,10 @@ function App() {
                 Overview
               </button>
               <button 
-                onClick={() => setActiveTab('technology')}
-                className={`text-sm font-medium transition-colors ${activeTab === 'technology' ? 'text-purple-400' : 'text-gray-300 hover:text-white'}`}
+                onClick={() => window.location.href = 'https://invest.viewervalue.net'}
+                className={`text-sm font-medium transition-colors text-gray-300 hover:text-white`}
               >
-                Technology
-              </button>
-              <button 
-                onClick={() => setActiveTab('investment')}
-                className={`text-sm font-medium transition-colors ${activeTab === 'investment' ? 'text-purple-400' : 'text-gray-300 hover:text-white'}`}
-              >
-                Investment
+                Pre-Sale
               </button>
             </nav>
 
@@ -131,29 +125,12 @@ function App() {
                 </button>
                 <button 
                   onClick={() => {
-                    setActiveTab('technology')
+                    window.location.href = 'https://invest.viewervalue.net'
                     setMobileMenuOpen(false)
                   }}
-                  className={`text-left px-4 py-2 text-sm font-medium transition-colors rounded-lg ${
-                    activeTab === 'technology' 
-                      ? 'text-purple-400 bg-purple-400/10' 
-                      : 'text-gray-300 hover:text-white hover:bg-white/5'
-                  }`}
+                  className={`text-left px-4 py-2 text-sm font-medium transition-colors rounded-lg text-gray-300 hover:text-white hover:bg-white/5`}
                 >
-                  Technology
-                </button>
-                <button 
-                  onClick={() => {
-                    setActiveTab('investment')
-                    setMobileMenuOpen(false)
-                  }}
-                  className={`text-left px-4 py-2 text-sm font-medium transition-colors rounded-lg ${
-                    activeTab === 'investment' 
-                      ? 'text-purple-400 bg-purple-400/10' 
-                      : 'text-gray-300 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  Investment
+                  Pre-Sale
                 </button>
               </nav>
             </div>
