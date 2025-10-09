@@ -432,5 +432,6 @@ const BetaTestingModal = ({ isOpen, onClose }) => {
   );
 };
 
+export { BetaTestingModal };
 export default BetaTestingModal;
 
