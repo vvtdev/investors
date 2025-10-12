@@ -95,6 +95,12 @@ function App() {
               >
                 Pre-Sale
               </button>
+              <button 
+                onClick={() => window.location.href = 'https://staking.viewervalue.net'}
+                className={`text-sm font-medium transition-colors text-gray-300 hover:text-white`}
+              >
+                Staking
+              </button>
             </nav>
 
             {/* Mobile Menu Button */}
@@ -131,6 +137,15 @@ function App() {
                   className={`text-left px-4 py-2 text-sm font-medium transition-colors rounded-lg text-gray-300 hover:text-white hover:bg-white/5`}
                 >
                   Pre-Sale
+                </button>
+                <button 
+                  onClick={() => {
+                    window.location.href = 'https://staking.viewervalue.net'
+                    setMobileMenuOpen(false)
+                  }}
+                  className={`text-left px-4 py-2 text-sm font-medium transition-colors rounded-lg text-gray-300 hover:text-white hover:bg-white/5`}
+                >
+                  Staking
                 </button>
               </nav>
             </div>
